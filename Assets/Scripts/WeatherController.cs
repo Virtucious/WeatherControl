@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-    public class Weather
+public class Weather
 {
     public int id;
     public string main;
@@ -32,13 +32,20 @@ public class WeatherController : MonoBehaviour
     public Material rainSkybox;
     public string cityId;
     private float apiCheckTime = API_CHECK_TIME;
+    public static WeatherController instance;
 
-    
-    void Start()
+
+    private void Awake()
     {
-        CheckRainStatus();
-        CheckOvercast();
+        instance = this;
     }
+
+    private void Start()
+    {
+        CheckOvercast();
+        CheckRainStatus();
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -47,6 +54,7 @@ public class WeatherController : MonoBehaviour
         if (apiCheckTime <= 0)
         {
             CheckRainStatus();
+            CheckOvercast();
             apiCheckTime = API_CHECK_TIME;
         }
     }
